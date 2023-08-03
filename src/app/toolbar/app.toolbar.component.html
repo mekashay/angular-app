@@ -1,0 +1,30 @@
+<p>
+    <mat-toolbar color="primary" class="matbar">
+      <mat-toolbar-row>
+        <span><h2>Home</h2></span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
+          <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
+          <button mat-menu-item routerLink="/login">
+              <mat-icon>person</mat-icon><span>My Account</span>
+          </button>
+          <button mat-menu-item routerLink="#">
+              <mat-icon>settings</mat-icon><span>Settings</span>
+          </button>
+          <button mat-menu-item routerLink="#">
+              <mat-icon>help</mat-icon><span>Help</span>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item routerLink="/login">
+              <mat-icon>exit_to_app</mat-icon>Logout
+          </button>
+      </mat-menu>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+      </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+</p>
+

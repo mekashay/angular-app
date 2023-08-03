@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Users</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+   
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand">Users</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" tabindex="10">
+        <span class="navbar-toggler-icon"></span>
+       </button>
+    
+      <div class="collapse navbar-collapse" id="navabarColor02">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+         <button type="button" (click)="onOpenModal(null,'add')" class="btn btn-primary" data-toggle="modal" data-target="#navbarColor02">
+              Add User
+              <span class="sr-only">(current)</span>
+            </button>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" (ngModelChange)="searchUsers(key.value)"  #key="ngModel" ngModel name="key" id="searchName" placeholder="Search Users ..." aria-label="Search">
+  
+        </form>
+      </div>
+    </nav>
+    
+    
+    <div class="container" id="main-container">
+    
+      <table class="table table-bordered table-dark">
+        <thead>
+          <tr>
+            <th scope="col">User Id</th>
+            <th scope="col">Email</th>
+            <th scope="col">User Status</th>
+            <th scope="col">Login Status</th>
+            <th scope="col">Role</th>
+            <th scope="col" colspan="2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <th>{{user.userId}}</th>
+            <td>{{user.email}}</td>
+            <td>{{user.userStatus}}</td>
+            <td>{{user.loginStatus}}</td>
+            <td>{{user.role}}</td>
+            <td colspan="2"><a  (click)="onOpenModal(user,'edit')" class="btn btn-primary  active tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+            <a  (click)="onOpenModal(user,'delete')"  class="btn btn-danger active tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a></td>
+        </tr>
+        </tbody>
+      </table>
+    
+    
+    <!-- Add Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="false" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="false">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addForm="ngForm">
+         
+         <div class="form-group">
+            <label for="name" class="col-form-label">User Id</label>
+            <input  type="text"   ngModel name="userId" class="form-control" id="userId" placeholder="Enter Name">
+          </div>
+        <div class="form-group">
+          <label for="email" class="col-form-label">Email:</label>
+          <input  type="email"   ngModel name="email" class="form-control" id="email"  placeholder="example@gmail.com">
+        </div>
+        <div class="form-group">
+          <label for="password" class="col-form-label">Password:</label>
+          <input  type="password"   ngModel name="password" class="form-control" id="password">
+        </div>
+        <div class="form-group">
+          <label for="loginStatus" class="col-form-label">Login Status:</label>
+          <input  type="text"   ngModel name="loginStatus" class="form-control" id="loginStatus" placeholder="Enter Login Status">
+        </div>
+        <div class="form-group">
+          <label for="userStatus" class="col-form-label">User Status:</label>
+          <input  type="text"   ngModel name="userStatus" class="form-control" id="userStatus" placeholder="Enter User Status">
+        </div>
+        <div class="form-group">
+          <label for="role">Select Role</label>
+          <select class="form-control" id="selectRole" ngModel name="role" placeholder="Enter Role">
+            <option value="admin">Admin</option>
+            <option value="business">Business</option>
+          </select>
+        </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="add-user-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button [disabled]="addForm.invalid" type="submit" (click)="onAddUser(addForm)" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- update Modal -->
+<div class="modal fade" id ="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateUserModalLabel">Update User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="userId">User Id: </label>
+              </div>
+              <div class="col-md-9">
+              <input type="text" class="form-control form-control-md"  ngModel ="{{updateUser?.userId}}" name ="userId" placeholder = "Enter User Id" required>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="color">Email</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control form-control-md" type="email"  ngModel="{{updateUser?.email}}" name="email" placeholder="Enter Email" required>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="color">Password</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control form-control-md" type="password"  ngModel="{{updateUser?.password}}" name="password"  required>
+              </div>
+            </div>
+          </div>
+          <!-- start-->
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="userSstatus">User Status</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control form-control-md" type="text"   ngModel="{{updateUser?.userStatus}}" name="userStatus" id = "userSt" placeholder="Enter User Status" required >
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="login">Login Status</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control form-control-md" type="text" ngModel = "{{updateUser?.loginStatus}}" name="loginStatus" id="loginSt" placeholder="Enter Login Status" required>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="role">Role</label>
+              </div>
+              <div class="col-md-9">
+                <select class="form-control" id="role" ngModel = "{{updateUser?.role}}" name="role" placeholder="Enter Role">
+                  <option value="admin">Admin</option>
+                  <option value="business">Business</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!--end-->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="buttom" (click)="onUpdateUser(updateForm)" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- delete Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteUserModalLabel">Delete User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete {{deleteUser?.userId}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" (click)="onDeleteUser(deleteUser?.id)" data-dismiss="modal" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Notification for no employee-->
+<div *ngIf="users?.length==0" class="col-lg-12 col-md-12 col-xl-12">
+  <div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">No USERS!</h4>
+    <p>No Users were found.</p>
+  </div>
+</div>
+
+  </body>
+</html>

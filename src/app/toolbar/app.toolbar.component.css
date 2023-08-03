@@ -1,0 +1,13 @@
+@import "~@angular/material/prebuilt-themes/purple-green.css";
+.spacer {
+    flex: 1 1 auto;
+  }
+
+  .example-spacer{
+    flex: 1 1 auto;
+  }
+  .matbar{
+    background-color: rgba(44, 97, 0, 0.753);
+  }
+  
+ 
